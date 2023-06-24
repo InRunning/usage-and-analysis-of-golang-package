@@ -24,11 +24,13 @@ func main() {
 		}
 	}(pcapFile)
 
+	// get pcapng file reader
 	reader, err := pcapgo.NewNgReader(pcapFile, pcapgo.DefaultNgReaderOptions)
 	if err != nil {
 		log.Fatal("can't open reader, error: ", err)
 		return
 	}
+	// use reader to generate packetsource
 	packetSource := gopacket.NewPacketSource(reader, layers.LinkTypeEthernet)
 	fmt.Println("packet length: ", len(packetSource.Packets()))
 	for packet := range packetSource.Packets() {
